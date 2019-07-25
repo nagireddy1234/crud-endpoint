@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>Welcome to the backoffice</h1>
+    <h2>Create all the Products that you like</h2>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <form>
+
+
+          <div class="form-group">
+            <label for="name">Name of Product</label>
+            <input type="text" class="form-control" id="name" placeholder="write name of Product" />
+          </div>
+
+          <div class="form-group">
+            <label for="description">Product details</label>
+            <textarea class="form-control" id="description" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="brand">Brand</label>
+            <input type="text" id="brand" />
+          </div>
+
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" id="price" />
+          </div>
+
+
+          <div class="form-group">
+            <label for="Image">Image</label>
+            <input type="text" src="" id="image" />
+          </div>
+
+          <div class="form-group">
+            <input type="button" class="btn btn-primary" onclick="submitEvent()" value="Submit Product" />
+          </div>
+        </form>
+      </div>
+
+      <div class="col-md-6" id="myEvents">
+        <div class="form-group">
+          <input type="button" class="btn btn-primary" onclick="deleteEvent()" value="Delete all Product" />
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="helper.js"></script>
+  <script>
+    window.onload = async () => {
+
+      var events = await getEvents();
+      var myEvents = document.querySelector("#myEvents");
+      if (events.length > 0) {
+        myEvents.innerHTML = events.map(event => `<div> <h1> Product </h1>
+                Name: ${event.name} <br> Description: ${event.description} <br> Brand: ${event.brand} <br> Price: ${event.price} <br> Image: ${event.imageUrl}
+            </div>
+            `).join("");
+      } else {
+        myEvents.innerHTML = `<h3>Here you'll see your products once you create some</h3>`;
+      }
+      //READ => GET https://strive-school-testing-apis.herokuapp.com/api/agenda/ ==> get all the items from API
+      //READ => GET https://strive-school-testing-apis.herokuapp.com/api/agenda/{id} ==> get the specific item
+      //CREATE => POST https://strive-school-testing-apis.herokuapp.com/api/agenda/ ==> create a new item
+      //UPDATE => PUT https://strive-school-testing-apis.herokuapp.com/api/agenda/{id} ==> edit a specified item
+      //DELETE => DELETE https://strive-school-testing-apis.herokuapp.com/api/agenda/{id} => delete a specified item
+      //REST API => CRUD => Create Read Update Delete
+    };
+
+    submitEvent = async () => {
+      var myEvent = {
+        name: document.querySelector("#name").value,
+        description: document.querySelector("#description").value,
+        brand: document.querySelector("#brand").value,
+        price: document.querySelector("#price").value,
+        imageUrl: document.querySelector("#image").value
+      };
+      const proxyurl = "https://cors-anywhere.herokuapp.com/";
+      const url =
+        "https://cors-anywhere.herokuapp.com/https://strive-school-testing-apis.herokuapp.com/api/product/"; // site that doesn’t send Access-Control-*
+      var username = "user5";
+      var password = "9UVmQDaSPgxSuAds";
+      var atob = {
+        authenticated: true,
+        user: "user"
+      }
+      var digest = btoa(username + ":" + password);
+      var response = await fetch(proxyurl + url, {
+        method: "POST",
+        body: JSON.stringify(myEvent),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          "Authorization": `Basic ${digest}`
+        })
+      })
+      var json = await response.json();
+      return console.log(json);
+    };
+
+    deleteEvent =()=>{
+      
+      var username = "user5";
+      var password = "9UVmQDaSPgxSuAds";
+      var atob = {
+        authenticated: true,
+        user: "user"
+      }
+      var digest = btoa(username + ":" + password);
+      var response = await fetch(proxyurl + url + id, {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          "Authorization": `Basic ${digest}`
+        })
+      })
+    };
+
+
+
+  </script>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+</body>
+
+</html>

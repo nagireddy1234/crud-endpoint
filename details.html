@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+    <script src="helper.js"></script>
+
+    <div class="container">
+
+    </div>
+
+    <script>
+
+        window.onload = async () => {
+            var urlParams = new URLSearchParams(window.location.search);
+            var id = urlParams.get("id");
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            const url = "https://cors-anywhere.herokuapp.com/https://strive-school-testing-apis.herokuapp.com/api/product/"; // site that doesn’t send Access-Control-*
+            var username ="user5";
+            var password="9UVmQDaSPgxSuAds";
+            var atob ={ 
+                authenticated: true,
+                user: "user"
+              }
+            var digest= btoa(username + ":" + password);
+            // console.log(proxyurl + url + id);
+            var response = await fetch( proxyurl + url + id, {
+              headers: new Headers({
+          "Content-Type": "application/json",
+          "Authorization": `Basic ${digest}`
+        })
+            })
+            var event =  await response.json();
+            // console.log(event)
+             return event;
+             document.querySelector(".container").innerHTML = ` ${event.name} : ${event.description} `
+           
+        }
+    
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
