@@ -116,23 +116,7 @@
       return console.log(json);
     };
 
-    deleteEvent =()=>{
-      
-      var username = "user5";
-      var password = "9UVmQDaSPgxSuAds";
-      var atob = {
-        authenticated: true,
-        user: "user"
-      }
-      var digest = btoa(username + ":" + password);
-      var response = await fetch(proxyurl + url + id, {
-        method: "DELETE",
-        headers: new Headers({
-          "Content-Type": "application/json",
-          "Authorization": `Basic ${digest}`
-        })
-      })
-    };
+    
 
 
 
